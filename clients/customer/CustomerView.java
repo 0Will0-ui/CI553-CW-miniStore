@@ -5,6 +5,7 @@ import catalogue.BetterBasket;
 import clients.Picture;
 import middle.MiddleFactory;
 import middle.StockReader;
+import soundEffects.PlaySound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,13 +69,19 @@ public class CustomerView implements Observer
     cp.add( pageTitle );
 
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check button
-    theBtCheck.addActionListener(                   // Call back code
-      e -> cont.doCheck( theInput.getText() ) );
+    theBtCheck.addActionListener(e -> {
+      cont.doCheck(theInput.getText());
+      PlaySound playSound = new PlaySound("sounds/mouse-click.wav");
+      playSound.play();
+    });
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtClear.setBounds( 16, 25+60*1, 80, 40 );    // Clear button
-    theBtClear.addActionListener(                   // Call back code
-      e -> cont.doClear() );
+    theBtClear.addActionListener(e -> {
+      cont.doClear();
+      PlaySound playSound = new PlaySound("sounds/mouse-click.wav");
+      playSound.play();
+    });
     cp.add( theBtClear );                           //  Add to canvas
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
