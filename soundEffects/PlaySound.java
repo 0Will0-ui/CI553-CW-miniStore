@@ -5,54 +5,61 @@ import java.io.File;
 import java.io.IOException;
 
 public class PlaySound {
-    private String soundFilePath;
+    private String filePath;
 
-    public PlaySound(String soundFilePath) { // play sound
-        this.soundFilePath = soundFilePath;
+    public PlaySound(String filePath) {
+        this.filePath = filePath;
     }
 
     public void play() {
         try {
-            // Load the sound file
-            File soundFile = new File(soundFilePath);
+            // Loads sound file
+            File soundFile = new File(filePath);
             if (!soundFile.exists()) {
-                throw new IllegalArgumentException("Sound file not found: " + soundFilePath);
+                throw new IllegalArgumentException("Sound file not found: " + filePath);
             }
 
-            // Create an AudioInputStream
+            // Creates AudioInputStream to read loaded file
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
 
-            // Get the audio format and check if it's supported
+            // Reads the audio format and checks if it's supported
             AudioFormat baseFormat = audioStream.getFormat();
             AudioFormat targetFormat = new AudioFormat(
                     AudioFormat.Encoding.PCM_SIGNED,
                     baseFormat.getSampleRate(),
-                    16, // Bits per sample
+                    16, 
                     baseFormat.getChannels(),
-                    baseFormat.getChannels() * 2, // Frame size
+                    baseFormat.getChannels() * 2, 
                     baseFormat.getSampleRate(),
-                    false // Big-endian
+                    false
             );
 
-            // Convert the stream if needed
+            // Converts the stream if needed
             AudioInputStream convertedStream = AudioSystem.getAudioInputStream(targetFormat, audioStream);
 
-            // Get a clip to play the sound
+            // Creates clip to play the sound
             Clip clip = AudioSystem.getClip();
             clip.open(convertedStream);
-
-            // Play the clip
+            // Plays the clip
             clip.start();
-
-            // Optional: Wait for the clip to finish playing
+            
+            // Wait for the clip to finish playing to avoid premature termination
+            
             while (!clip.isRunning()) Thread.sleep(10);
             while (clip.isRunning()) Thread.sleep(10);
 
-            // Close resources
+            // Closes everything used
             clip.close();
             audioStream.close();
-        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException | InterruptedException e) {
+            
+        } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
-        }
+        } catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
     }
 }
