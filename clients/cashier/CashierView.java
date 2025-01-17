@@ -72,7 +72,7 @@ public class CashierView implements Observer {
         theBtBuy.setBounds(16, 25 + 60 * 1, 80, 40); // Buy button
         theBtBuy.addActionListener(e -> {
             cont.doBuy();
-            PlaySound playSound = new PlaySound("sounds/mouse-click.wav");
+            PlaySound playSound = new PlaySound("sounds/purchase-sound.wav");
             playSound.play();
         });
         cp.add(theBtBuy); // Add to canvas

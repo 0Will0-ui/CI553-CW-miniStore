@@ -22,24 +22,9 @@ public class PlaySound {
             // Creates AudioInputStream to read loaded file
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
 
-            // Reads the audio format and checks if it's supported
-            AudioFormat baseFormat = audioStream.getFormat();
-            AudioFormat targetFormat = new AudioFormat(
-                    AudioFormat.Encoding.PCM_SIGNED,
-                    baseFormat.getSampleRate(),
-                    16, 
-                    baseFormat.getChannels(),
-                    baseFormat.getChannels() * 2, 
-                    baseFormat.getSampleRate(),
-                    false
-            );
-
-            // Converts the stream if needed
-            AudioInputStream convertedStream = AudioSystem.getAudioInputStream(targetFormat, audioStream);
-
             // Creates clip to play the sound
             Clip clip = AudioSystem.getClip();
-            clip.open(convertedStream);
+            clip.open(audioStream);
             // Plays the clip
             clip.start();
             
@@ -63,3 +48,5 @@ public class PlaySound {
 		}
     }
 }
+
+
